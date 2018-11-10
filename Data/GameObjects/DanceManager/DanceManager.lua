@@ -2,6 +2,7 @@ position={"Left","Right"}
 direction={"Left","Down","Right","Up"}
 
 function Local.Init()
+
     Object.arrows = {};
     Object.boards = {};
     for k,v in pairs(position) do
@@ -26,43 +27,50 @@ function Local.Init()
 end
 
 function Global.Game.Update(dt)
-    print("test");
+    --print("test");
     -- Delete Arrows out of bounds
-    print(inspect(Object.arrows))
+    --print(inspect(Object.arrows))
     for k,v in pairs(Object.arrows) do
         for k2,v2 in pairs(v) do
             for k3, v3 in pairs (v2) do
-                print("test6");
+                --print("test6");
                 if v3.checkOOB() then
-                    print("test5");
+                    --print("test5");
                     v3.delete();
                     table.remove(v2, k3);
                 end
             end
         end
     end
-    print("test2");
-    print(inspect(Object.arrows))
+    --print("test2");
+    --print(inspect(Object.arrows))
     if Object.test == 0 then
-        print("test3");
+        --print("test3");
         for k,v in pairs(Object.boards) do
-            print("test4");
-            table.insert(Object.arrows[k]["Up"], Scene:createGameObject("Arrow")({board = {position=v.getPosition(), size=v.getSize()}, type="Up"}));
+            --print("test4");
+            local r = math.random(1,4);
+            table.insert(Object.arrows[k][direction[r]], Scene:createGameObject("Arrow")({board = {position=v.getPosition(), size=v.getSize()}, type=direction[r]}));
         end
         
     end
-    print("test7");
-    Object.test = (Object.test + dt)%5000;
-    print("test8");
+    --print("test7");
+
+    Object.test = (Object.test + 1)%50;
+    --print("test8");
+    --print(__ENV_ID);
+    --print("test9");
 end
 
 function check(pos, type)
+    local perfect = 0.1;
+    local good = 0.15;
+    local ok = 0.2;
     for k,v in pairs(Object.arrows[pos][type]) do
-        if v:getPosition().x < Object.boards[pos].arrowTargets[type].getPosition().x  then
+        if v.getPosition().y <= Object.boards[pos].arrowTargets[type].getPosition().y  then
             --v.delete();
-            printf("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyVICTORY");
+            print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyVICTORY",v.getPosition().y,pos,type,Object.boards[pos].arrowTargets[type].getPosition().y);
         else
-            printf("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyLOSER");
+            print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyLOSER",v.getPosition().y,pos,type,Object.boards[pos].arrowTargets[type].getPosition().y);
         end
     end
 end
@@ -72,29 +80,29 @@ function LUpPressed()
 end
 
 function LRightPressed()
-    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+    check("Left", "Right");
 end
 
 function LDownPressed()
-    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+    check("Left", "Down");
 end
 
 function LLeftPressed()
-    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+    check("Left", "Left");
 end
 
 function RUpPressed()
-    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+    check("Right", "Up");
 end
 
 function RRightPressed()
-    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+    check("Right", "Right");
 end
 
 function RDownPressed()
-    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+    check("Right", "Down");
 end
 
 function RLeftPressed()
-    print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+    check("Right", "Left");
 end

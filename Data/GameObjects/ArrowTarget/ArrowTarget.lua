@@ -1,8 +1,6 @@
 function Local.Init(board, type)
     Object.baseX=board.position.x;
     Object.y = board.position.y + 0.05;
-    print(board.position.x)
-    print(board.size.x)
     if type == "Left" then 
         Object.x = Object.baseX + 0.05 - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
         Object.rotation = 90;
