@@ -1,0 +1,15 @@
+Include (Obe);
+Flag (Map);
+Flag (Lock);
+
+Meta:
+    name:"test"
+
+View:
+    pos:Vector2<SceneUnits>(0, 0)
+    size:1
+
+
+GameObjects:
+    danceManager:
+        type:"DanceManager"

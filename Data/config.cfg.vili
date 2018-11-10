@@ -1,0 +1,13 @@
+Define Flag (Settings);
+    
+KeyBinding:
+    game:
+        LUpPressed:["Pressed:Z", "Pressed:W"]
+        LDownPressed:"Pressed:S"
+        LLeftPressed:["Pressed:Q", "Pressed:A"]
+        LRightPressed:"Pressed:D"
+
+        RUpPressed:"Pressed:Up"
+        RDownPressed:"Pressed:Down"
+        RLeftPressed:"Pressed:Left"
+        RRightPressed:"Pressed:Right"

@@ -1,0 +1,23 @@
+Include (Obe);
+
+Arrow:
+    Collider:
+        unit:
+            unit:"SceneUnits"
+        points:[
+            0 , 0
+            0.06, 0
+            0.06, 0.06
+            0, 0.06  
+        ]
+    LevelSprite:
+        path:"Sprites/GameObjects/Arrow/arrow.png"
+        rect:Rect<SceneUnits>(0, 0, 0.06, 0.06)
+        xTransform:"Camera"
+        yTransform:"Camera"
+        layer:1.0
+        z-depth:0.0
+    Script:
+        source:"Data/GameObjects/Arrow/Arrow.lua"
+
+

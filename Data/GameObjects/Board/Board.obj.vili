@@ -1,0 +1,12 @@
+Include (Obe);
+
+Board:
+    Script:
+        source:"Data/GameObjects/Board/Board.lua"
+    LevelSprite:
+        path:"Sprites/GameObjects/Board/board.png"
+        rect:Rect<ViewPercentage>(0, 0, 0.3, 0.9)
+        xTransform:"Camera"
+        yTransform:"Camera"
+        layer:1.0
+        z-depth:2.0

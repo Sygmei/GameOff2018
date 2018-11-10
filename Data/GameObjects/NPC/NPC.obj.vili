@@ -1,0 +1,23 @@
+Include (Obe);
+
+NPC:
+    Collider:
+        unit:
+            unit:"SceneUnits"
+        points:[
+            0, 0
+            0.05, 0
+            0.05, 0.05
+            0, 0.05
+        ]
+        tag:"Character"
+    LevelSprite:
+        rect:Rect<SceneUnits>(0, 0, 0.05, 0.05)
+        xTransform:"Camera"
+        yTransform:"Camera"
+        layer:1.0
+        z-depth:0.0
+    Script:
+        source:"Data/GameObjects/NPC/NPC.lua"
+
+

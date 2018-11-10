@@ -1,0 +1,7 @@
+Include (Obe);
+
+Grid:
+    Script:
+        source:"Data/GameObjects/Grid/Grid.lua"
+
+

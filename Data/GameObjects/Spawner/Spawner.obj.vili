@@ -1,0 +1,7 @@
+Include (Obe);
+
+Spawner:
+    Script:
+        source:"Data/GameObjects/Spawner/Spawner.lua"
+
+
