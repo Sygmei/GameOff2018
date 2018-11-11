@@ -27,52 +27,49 @@ function Local.Init()
 end
 
 function Global.Game.Update(dt)
-    --print("test");
     -- Delete Arrows out of bounds
-    --print(inspect(Object.arrows))
     for k,v in pairs(Object.arrows) do
         for k2,v2 in pairs(v) do
             for k3, v3 in pairs (v2) do
-                --print("test6");
                 if v3.checkOOB() then
-                    --print("test5");
+                    Object.boards[k].fail();
                     v3.delete();
                     table.remove(v2, k3);
                 end
             end
         end
     end
-    --print("test2");
-    --print(inspect(Object.arrows))
     if Object.test == 0 then
-        --print("test3");
+        local r = math.random(1,4);
         for k,v in pairs(Object.boards) do
-            --print("test4");
-            local r = math.random(1,4);
-            table.insert(Object.arrows[k][direction[r]], Scene:createGameObject("Arrow")({board = {position=v.getPosition(), size=v.getSize()}, type=direction[r]}));
+            table.insert(Object.arrows[k][direction[r]], Scene:createGameObject("Arrow")({board = v, type=direction[r]}));
         end
         
     end
-    --print("test7");
 
-    Object.test = (Object.test + 1)%50;
-    --print("test8");
-    --print(__ENV_ID);
-    --print("test9");
+    Object.test = (Object.test + 1)%80;
 end
 
 function check(pos, type)
-    local perfect = 0.1;
-    local good = 0.15;
-    local ok = 0.2;
-    for k,v in pairs(Object.arrows[pos][type]) do
-        if v.getPosition().y <= Object.boards[pos].arrowTargets[type].getPosition().y  then
-            --v.delete();
-            print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyVICTORY",v.getPosition().y,pos,type,Object.boards[pos].arrowTargets[type].getPosition().y);
+    local tolerance = 0.05
+    --for k,v in pairs() do
+        local targetPos = Object.boards[pos].arrowTargets[type].getPosition()
+        if #Object.arrows[pos][type] > 0 then
+            local arrowPos = Object.arrows[pos][type][1].getPosition()
+            if targetPos.y - tolerance <= arrowPos.y and arrowPos.y <= targetPos.y + tolerance  then
+                print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyVICTORY",arrowPos.y,pos,type,targetPos.y);
+                Object.boards[pos].success();
+                Object.arrows[pos][type][1].delete();
+                table.remove(Object.arrows[pos][type], 1);
+            else
+                Object.boards[pos].fail();
+                print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyLOSER",arrowPos.y,pos,type,targetPos.y);
+            end
         else
-            print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyLOSER",v.getPosition().y,pos,type,Object.boards[pos].arrowTargets[type].getPosition().y);
+            Object.boards[pos].fail();
+            print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyLOSER");
         end
-    end
+    --end
 end
 
 function LUpPressed()

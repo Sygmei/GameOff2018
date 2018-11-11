@@ -1,17 +1,19 @@
 function Local.Init(board, type)
-    Object.baseX=board.position.x;
+    Object.boardPosition = board.getPosition();
+    Object.boardSize = board.getSize();
+    Object.baseX=Object.boardPosition.x;
     Object.y = 0.90;
     if type == "Left" then 
         Object.x = Object.baseX + 0.05 - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
         Object.rotation = 90;
     elseif type == "Down" then
-        Object.x = Object.baseX + 0.05 + (board.size.x-0.1)/3 - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
+        Object.x = Object.baseX + 0.05 + (Object.boardSize.x-0.1)/3 - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
         Object.rotation = 180;
     elseif type == "Right" then
-        Object.x = Object.baseX + 0.05 + 2*(board.size.x-0.1)/3 - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
+        Object.x = Object.baseX + 0.05 + 2*(Object.boardSize.x-0.1)/3 - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
         Object.rotation = -90;
     elseif type == "Up" then
-        Object.x = Object.baseX + 0.05 + (board.size.x-0.1) - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
+        Object.x = Object.baseX + 0.05 + (Object.boardSize.x-0.1) - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
         Object.rotation = 0;
     end
                 
@@ -58,7 +60,7 @@ function Object:checkOOB()
     local bx, by = selfPoint.x, selfPoint.y;
 
     -- World Bounds (Top and bottom)
-    if by < 0.01  then
+    if by < Object.boardPosition.y  then
         return true
     end
     return false
