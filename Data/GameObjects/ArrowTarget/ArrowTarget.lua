@@ -16,9 +16,17 @@ function Local.Init(board, type)
     end
                 
     This:getSceneNode():setPosition(obe.UnitVector(Object.x, Object.y, obe.Units.ViewPercentage));
-    This:LevelSprite():setRotation(Object.rotation, obe.Referencial.Center);
+    This:LevelSprite():setRotation(Object.rotation, obe.Referential.Center);
 end
 
 function Object:getPosition()
     return This:getSceneNode():getPosition();
+end
+
+function Object:grow()
+    This:LevelSprite():scale(obe.UnitVector(2, 2), obe.Referential.Center);
+end
+
+function Object:shrink()
+    This:LevelSprite():scale(obe.UnitVector(0.5, 0.5), obe.Referential.Center);
 end
