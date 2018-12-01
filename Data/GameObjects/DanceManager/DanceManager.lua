@@ -75,7 +75,7 @@ function Global.Game.Update(dt)
                         local targetPos = Object.boards[k].arrowTargets[arrowType].getPosition();
                         local arrowPos = v3.getPosition();
                         if targetPos.y - 0.005 <= arrowPos.y and arrowPos.y <= targetPos.y + 0.005 then
-                            local r = math.random(0,1);
+                            local r = math.random(0,2);
                             if r ~= 0 then
                                 Object.boards["Left"].arrowTargets[arrowType].grow();
                                 check("Left", arrowType);
@@ -97,8 +97,12 @@ function Global.Game.Update(dt)
     elseif not Object.flagEnd and Object.music:getStatus() == "Stopped" then
         Object.flagEnd = true;
         Scene:createLevelSprite("end_sprite");
-        local end_sprite = Scene:getLevelSprite("end_sprite");        
-        if Object.boards["Left"].getLife() < Object.boards["Right"].getLife() then
+        local end_sprite = Scene:getLevelSprite("end_sprite"); 
+        local leftCount = Object.boards["Left"].getCounter();
+        local rightCount = Object.boards["Right"].getCounter();
+        local leftLife = Object.boards["Left"].getLife();
+        local rightLife = Object.boards["Right"].getLife();       
+        if ( leftCount ==  rightCount and leftLife < rightLife ) or ( leftCount < rightCount ) then
             end_sprite:loadTexture("Sprites/LevelSprites/Dance/victory.png");
             Object.win = true;
         else
