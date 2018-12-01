@@ -1,0 +1,40 @@
+Include (Obe);
+Flag (Map);
+Flag (Lock);
+
+Meta:
+    name:"test4"
+
+View:
+    size:1.0
+    pos:Vector2<SceneUnits>(0.0, 0.0)
+    referential:Referential<TopLeft>()
+
+LevelSprites:
+    sprite0:
+        path:"Sprites/LevelSprites//Spy/background.png"
+        rect:Rect<ViewPercentage>(0.0, 0, 1, 1)
+        rotation:0.0
+        layer:1
+        z-depth:1
+        xTransform:"Camera"
+        yTransform:"Camera"
+
+Collisions:
+    collider0:
+        unit:
+            unit:"ViewPercentage"
+        points:[
+            0, 0
+            1, 0
+            1, 1
+            0, 1
+        ]
+
+GameObjects:
+    grid:
+        type:"Grid"
+        Requires:
+            colliderId:"collider0"
+    spy_manager:
+        type:"SpyManager"

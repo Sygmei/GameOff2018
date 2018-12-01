@@ -1,0 +1,13 @@
+Define Flag (Anim);
+Define Flag (Lock);
+
+Meta:
+    name:"DEAD"
+    clock:200
+Images:
+    ImageList:["1.png", "2.png"]
+Groups:
+    main:
+        content:[0..1]
+Animation:
+    AnimationCode:["PLAY_GROUP(main, -1)"]

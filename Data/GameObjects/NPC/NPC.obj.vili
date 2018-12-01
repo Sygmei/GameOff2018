@@ -6,13 +6,13 @@ NPC:
             unit:"SceneUnits"
         points:[
             0, 0
-            0.05, 0
-            0.05, 0.05
-            0, 0.05
+            0.15, 0
+            0.15, 0.15
+            0, 0.15
         ]
         tag:"Character"
     LevelSprite:
-        rect:Rect<SceneUnits>(0, 0, 0.05, 0.05)
+        rect:Rect<SceneUnits>(0, 0, 0.15, 0.15)
         xTransform:"Camera"
         yTransform:"Camera"
         layer:1.0

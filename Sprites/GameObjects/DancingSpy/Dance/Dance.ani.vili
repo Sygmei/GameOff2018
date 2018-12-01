@@ -1,0 +1,13 @@
+Define Flag (Anim);
+Define Flag (Lock);
+
+Meta:
+    name:"DANCE"
+    clock:200
+Images:
+    ImageList:["idle.png", "running.png"]
+Groups:
+    main:
+        content:[0..1]
+Animation:
+    AnimationCode:["PLAY_GROUP(main, -1)"]

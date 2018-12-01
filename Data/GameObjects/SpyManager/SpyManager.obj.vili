@@ -1,0 +1,7 @@
+Include (Obe);
+
+SpyManager:
+    Script:
+        source:"Data/GameObjects/SpyManager/SpyManager.lua"
+
+

@@ -2,6 +2,7 @@ Define Flag (Settings);
     
 KeyBinding:
     game:
+        Click:["Pressed:LMB"]
         LUpPressed:["Pressed:Z", "Pressed:W"]
         LDownPressed:"Pressed:S"
         LLeftPressed:["Pressed:Q", "Pressed:A"]

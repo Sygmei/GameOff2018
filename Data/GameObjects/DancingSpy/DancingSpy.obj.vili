@@ -1,0 +1,15 @@
+Include (Obe);
+
+DancingSpy:
+    Animator:
+        path:"Sprites/GameObjects/DancingSpy"
+    LevelSprite:
+        rect:Rect<SceneUnits>(0.67, 0.7777, 0.41, 0.5)
+        xTransform:"Camera"
+        yTransform:"Camera"
+        layer:1.0
+        z-depth:1.0
+    Script:
+        source:"Data/GameObjects/DancingSpy/DancingSpy.lua"
+
+

@@ -1,6 +1,12 @@
 Include (Obe);
 
 Grid:
+    LevelSprite:
+        rect:Rect<SceneUnits>(0, 0, 1, 1)
+        xTransform:"Camera"
+        yTransform:"Camera"
+        layer:1.0
+        z-depth:0.0
     Script:
         source:"Data/GameObjects/Grid/Grid.lua"
 

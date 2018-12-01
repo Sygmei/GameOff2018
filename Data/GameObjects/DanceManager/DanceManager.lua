@@ -41,13 +41,13 @@ function Local.Init(two_player, music_path, bpm)
     Object.flagEnd = false;
     Object.chronoReleaseBot = obe.Chronometer();
     Object.chronoReleaseBot:setLimit(math.floor(200));
-    Object.tolerance = 0.08;
+    Object.tolerance = 0.07;
     Object.music = obe.Music(music_path);
     Object.bpm = bpm
     Object.timer = obe.TimeCheck(math.floor((60/Object.bpm)*1000),true);
     Object.music:play();
     Object.music:setVolume(60);
-    
+    Object.win = false
 end
 
 function Local.Delete()
@@ -75,7 +75,7 @@ function Global.Game.Update(dt)
                         local targetPos = Object.boards[k].arrowTargets[arrowType].getPosition();
                         local arrowPos = v3.getPosition();
                         if targetPos.y - (Object.tolerance - 0.02) <= arrowPos.y and arrowPos.y <= targetPos.y + (Object.tolerance - 0.02) then
-                            local r = math.random(0,19);
+                            local r = math.random(0,14);
                             if r == 0 then
                                 Object.boards["Left"].arrowTargets[arrowType].grow();
                                 check("Left", arrowType);
@@ -100,6 +100,7 @@ function Global.Game.Update(dt)
         local end_sprite = Scene:getLevelSprite("end_sprite");        
         if Object.boards["Left"].getLife() < Object.boards["Right"].getLife() then
             end_sprite:loadTexture("Sprites/LevelSprites/Dance/victory.png");
+            Object.win = true;
         else
             end_sprite:loadTexture("Sprites/LevelSprites/Dance/defeat.png");
         end

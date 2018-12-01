@@ -23,7 +23,7 @@ function Local.Init(pos)
     Object.life_sprite_max_size = obe.UnitVector(This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x, 0.05 , obe.Units.ViewPercentage);
     Object.life_sprite:setSize(obe.UnitVector(Object.life_sprite_max_size.x*(Object.life/Object.maxLife), Object.life_sprite_max_size.y, obe.Units.ViewPercentage));
     Object.life_sprite:setPosition(obe.UnitVector(Object.posX, Object.posY-0.05, obe.Units.ViewPercentage));
-    
+    Object.life_sprite:setZDepth(2);
 end
 
 function Object:getLife()
