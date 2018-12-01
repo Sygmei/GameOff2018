@@ -75,7 +75,7 @@ function Global.Game.Update(dt)
                         local targetPos = Object.boards[k].arrowTargets[arrowType].getPosition();
                         local arrowPos = v3.getPosition();
                         if targetPos.y - (Object.tolerance - 0.02) <= arrowPos.y and arrowPos.y <= targetPos.y + (Object.tolerance - 0.02) then
-                            local r = math.random(0,19);
+                            local r = math.random(0,14);
                             if r == 0 then
                                 Object.boards["Left"].arrowTargets[arrowType].grow();
                                 check("Left", arrowType);
