@@ -67,6 +67,7 @@ function Local.Init(colliderId)
         }
     });
     Object.path = false;
+    This:LevelSprite():setVisible(false);
 end
 
 function getNode(x, y)

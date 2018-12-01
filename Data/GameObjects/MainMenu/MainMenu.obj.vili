@@ -1,0 +1,7 @@
+Include (Obe);
+
+MainMenu:
+    Script:
+        source:"Data/GameObjects/MainMenu/MainMenu.lua"
+
+

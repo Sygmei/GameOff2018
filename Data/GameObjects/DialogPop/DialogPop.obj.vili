@@ -1,0 +1,13 @@
+Include (Obe);
+
+DialogPop:
+    LevelSprite:
+        rect:Rect<ViewPercentage>(0, 0, 1, 1)
+        xTransform:"Camera"
+        yTransform:"Camera"
+        layer:0.0
+        z-depth:0.0
+    Script:
+        source:"Data/GameObjects/DialogPop/DialogPop.lua"
+
+

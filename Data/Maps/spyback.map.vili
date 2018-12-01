@@ -3,7 +3,7 @@ Flag (Map);
 Flag (Lock);
 
 Meta:
-    name:"test4"
+    name:"spyback"
 
 View:
     size:1.0
@@ -25,10 +25,10 @@ Collisions:
         unit:
             unit:"ViewPercentage"
         points:[
-            0, 0
-            1, 0
-            1, 1
-            0, 1
+            0.01, 0.01
+            0.99, 0.01
+            0.99, 0.99
+            0.01, 0.99
         ]
 
 GameObjects:
@@ -38,3 +38,5 @@ GameObjects:
             colliderId:"collider0"
     spy_manager:
         type:"SpyManager"
+    dialog_pop:
+        type:"DialogPop"

@@ -15,6 +15,23 @@ local AtlasFiles = {
     "lots_of_guys.png",
     "yet_another_guy.png"
 }
+Object.dialogues = {
+	"Good day.",
+    "Help enters in the back.",
+    "…he isn’t even a member of the Harvard club!",
+    "Yachts are so mundane by your third.",
+    "Your suit looks store-bought.",
+    "Pass the caviar, will you?",
+    "Is there mustard on my tie?",
+    "I can help double your yield.",
+    "Did Linda just do a cartwheel?",
+    "Clearly it’s a bull market and not a bear market.",
+    "What are we fundraising for again? Children?",
+    "And I said, ‘I don’t care whose donkey it is, just get it out of Johnson’s office!’",
+    "The champagne tastes horrible this year.",
+    "So much smaller this year."
+}
+
 
 function Local.Init(spy)
     print("NPC SPY ?", spy);
@@ -33,13 +50,16 @@ function Local.Init(spy)
     setTextureRect();
     Object.tNode = obe.TrajectoryNode(This:getSceneNode());
     Object.trajectory = Object.tNode:addTrajectory("Linear");
+    Object.speed = 0.1;
+    if spy then Object.speed = 0.15; end
     Object.trajectory
         :setAngle(math.random(0, 360))
-        :setSpeed(0.1)
+        :setSpeed(Object.speed)
         :setAcceleration(0)
         :onCollide(Object.collide);
     Object.tNode:setProbe(This:Collider());
     Object.target = obe.UnitVector(This:getSceneNode():getPosition());
+    Object.pop = {};
 end
 
 function setTextureRect()
@@ -75,7 +95,7 @@ function UpdateAnimation(dt)
 end
 
 function Global.Game.Update(dt)
-    if Scene:getGameObject("spy_manager").follow_id ~= This:getId() and not Object.spy then
+    if Scene:getGameObject("spy_manager").follow_id ~= This:getId() then
         Object.tNode:update(dt);
     elseif Scene:getGameObject("grid").path then
         local path = Scene:getGameObject("grid").path;
@@ -93,6 +113,14 @@ function Global.Game.Update(dt)
             Object.trajectory:setAngle(angle);
             Object.tNode:update(dt);
         end
+    end
+    local poppos = (This:LevelSprite():getPosition(obe.Referential.Top) - obe.UnitVector(0, 0.01)):to(obe.Units.ScenePixels);
+    if math.random(1, 5000) == 1 and not Object.pop.text then
+        Object.pop = Scene:getGameObject("dialog_pop"):pop(poppos.x, poppos.y, Object.dialogues[math.random(1, #Object.dialogues)]);
+    end
+    if Object.pop.text then
+        Object.pop.text.x = poppos.x;
+        Object.pop.text.y = poppos.y;
     end
     UpdateAnimation(dt);
 end

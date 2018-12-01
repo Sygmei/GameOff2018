@@ -1,0 +1,24 @@
+Include (Obe);
+Flag (Map);
+Flag (Lock);
+
+Meta:
+    name:"menu"
+
+View:
+    pos:Vector2<SceneUnits>(0, 0)
+    size:1
+
+LevelSprites:
+    sprite0:
+        path:"Sprites/LevelSprites/menu.png"
+        rect:Rect<ViewPercentage>(0.0, 0, 1, 1)
+        rotation:0.0
+        layer:1
+        z-depth:1
+        xTransform:"Camera"
+        yTransform:"Camera"
+
+GameObjects:
+    menu:
+        type:"MainMenu"
