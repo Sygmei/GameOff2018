@@ -74,9 +74,9 @@ function Global.Game.Update(dt)
                         local arrowType = k2;
                         local targetPos = Object.boards[k].arrowTargets[arrowType].getPosition();
                         local arrowPos = v3.getPosition();
-                        if targetPos.y - (Object.tolerance - 0.02) <= arrowPos.y and arrowPos.y <= targetPos.y + (Object.tolerance - 0.02) then
-                            local r = math.random(0,14);
-                            if r == 0 then
+                        if targetPos.y - 0.005 <= arrowPos.y and arrowPos.y <= targetPos.y + 0.005 then
+                            local r = math.random(0,1);
+                            if r ~= 0 then
                                 Object.boards["Left"].arrowTargets[arrowType].grow();
                                 check("Left", arrowType);
                                 Object.arrowPressedBot = arrowType
