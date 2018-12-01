@@ -13,3 +13,7 @@ View:
 GameObjects:
     danceManager:
         type:"DanceManager"
+        Requires:
+            two_player:False
+            music_path:"Sounds/I_Spot_a_Spy_With_My_Little_Eye.ogg"
+            bpm:90

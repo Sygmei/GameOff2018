@@ -11,3 +11,13 @@ KeyBinding:
         RDownPressed:"Pressed:Down"
         RLeftPressed:"Pressed:Left"
         RRightPressed:"Pressed:Right"
+
+        LUpReleased :["Released :Z", "Released :W"]
+        LDownReleased :"Released :S"
+        LLeftReleased :["Released :Q", "Released :A"]
+        LRightReleased :"Released :D"
+
+        RUpReleased :"Released :Up"
+        RDownReleased :"Released :Down"
+        RLeftReleased :"Released :Left"
+        RRightReleased :"Released :Right"

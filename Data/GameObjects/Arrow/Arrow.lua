@@ -3,16 +3,17 @@ function Local.Init(board, type, bpm)
     Object.boardSize = board.getSize();
     Object.baseX=Object.boardPosition.x;
     Object.y = 0.95;
-    if type == "Left" then 
+    Object.type = type;
+    if Object.type == "Left" then 
         Object.x = Object.baseX + 0.05 - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
         Object.rotation = 90;
-    elseif type == "Down" then
+    elseif Object.type == "Down" then
         Object.x = Object.baseX + 0.05 + (Object.boardSize.x-0.1)/3 - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
         Object.rotation = 180;
-    elseif type == "Right" then
+    elseif Object.type == "Right" then
         Object.x = Object.baseX + 0.05 + 2*(Object.boardSize.x-0.1)/3 - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
         Object.rotation = -90;
-    elseif type == "Up" then
+    elseif Object.type == "Up" then
         Object.x = Object.baseX + 0.05 + (Object.boardSize.x-0.1) - This:LevelSprite():getSize():to(obe.Units.ViewPercentage).x/2;
         Object.rotation = 0;
     end

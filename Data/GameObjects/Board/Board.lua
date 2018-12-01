@@ -26,6 +26,10 @@ function Local.Init(pos)
     
 end
 
+function Object:getLife()
+    return Object.life;
+end
+
 function Object:getSize()
     return This:LevelSprite():getSize():to(obe.Units.ViewPercentage)
 end
