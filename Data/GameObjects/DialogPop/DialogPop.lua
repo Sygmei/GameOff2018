@@ -4,6 +4,7 @@ function Local.Init()
     Object.texts = {};
     Object.index = 0;
     Object.duration = 6;
+    Object.canvas:render();
 end
 
 function Object:pop(x, y, text)

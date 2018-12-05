@@ -13,7 +13,7 @@ local AtlasFiles = {
     "girl_with_dress.png",
     "guy_with_hat.png",
     "lots_of_guys.png",
-    "yet_another_guy.png"
+    "yet_another_guy.png",
 }
 Object.dialogues = {
 	"Good day.",
@@ -31,17 +31,39 @@ Object.dialogues = {
     "The champagne tastes horrible this year.",
     "So much smaller this year."
 }
-
+Object.failDialogues = {
+    "Um, okay?",
+    "Huh.",
+    "Had too much to drink?"
+}
+Object.successDialogues = {
+    "Muahaha!",
+    "Behold my Kremlin dance moves!",
+    "The game has just begun, Agent!"
+}
 
 function Local.Init(spy)
-    print("NPC SPY ?", spy);
     Object.spy = spy;
-    This:getSceneNode():setPosition(obe.UnitVector(1.9, 1.1));
-    This:LevelSprite():loadTexture("Sprites/GameObjects/NPC/" .. AtlasFiles[math.random(1, #AtlasFiles)]);
-    This:LevelSprite():move((This:LevelSprite():getSize() / 2) * -1);
-    This:Collider():move((This:Collider():getBoundingBox():getSize() / 2) * -1);
+    local foundPos = false;
     This:Collider():addTag(obe.ColliderTagType.Rejected, "Character");
     This:Collider():addTag(obe.ColliderTagType.Rejected, "Door");
+    This:Collider():addTag(obe.ColliderTagType.Rejected, "Scene");
+    This:LevelSprite():move((This:LevelSprite():getSize() / 2) * -1);
+    This:Collider():move((This:Collider():getBoundingBox():getSize() / 2) * -1);
+    while not foundPos do
+        local randx = (math.random() * 0.8) + 0.1;
+        local randy = (math.random() * 0.8) + 0.1;
+        This:getSceneNode():setPosition(obe.UnitVector(randx, randy, obe.Units.ViewPercentage));
+        print("Trying", This:Collider():getCentroid().x, This:Collider():getCentroid().y);
+        if not This:Collider():doesCollide(obe.UnitVector(0, 0)) then
+            foundPos = true;
+            print("NO COLLISION, OKAY")
+        end
+    end
+    This:Collider():removeTag(obe.ColliderTagType.Rejected, "Scene");
+    This:LevelSprite():loadTexture("Sprites/GameObjects/NPC/" .. AtlasFiles[math.random(1, #AtlasFiles)]);
+    
+    
     Object.collider = This:Collider();
     Object.direction = "Down";
     Object.animationTimer = 0;
@@ -60,6 +82,9 @@ function Local.Init(spy)
     Object.tNode:setProbe(This:Collider());
     Object.target = obe.UnitVector(This:getSceneNode():getPosition());
     Object.pop = {};
+    Object.failed = false;
+    Object.sound = nil;
+    Object.angleInc = math.random() * 20;
 end
 
 function setTextureRect()
@@ -95,6 +120,11 @@ function UpdateAnimation(dt)
 end
 
 function Global.Game.Update(dt)
+    Object.trajectory:addAngle(Object.angleInc * dt);
+    if Scene:getGameObject("spy_manager").fails >= 3 and Object.spy then
+        Object.trajectory:setSpeed(1);
+        This:Collider():addTag(obe.ColliderTagType.Rejected, "Scene");
+    end
     if Scene:getGameObject("spy_manager").follow_id ~= This:getId() then
         Object.tNode:update(dt);
     elseif Scene:getGameObject("grid").path then
@@ -115,7 +145,7 @@ function Global.Game.Update(dt)
         end
     end
     local poppos = (This:LevelSprite():getPosition(obe.Referential.Top) - obe.UnitVector(0, 0.01)):to(obe.Units.ScenePixels);
-    if math.random(1, 5000) == 1 and not Object.pop.text then
+    if math.random(1, math.floor(1000000 * dt)) == 1 and not Object.pop.text then
         Object.pop = Scene:getGameObject("dialog_pop"):pop(poppos.x, poppos.y, Object.dialogues[math.random(1, #Object.dialogues)]);
     end
     if Object.pop.text then
@@ -126,8 +156,34 @@ function Global.Game.Update(dt)
 end
 
 function Global.Actions.Click()
-    if IsInCursor() and Object.spy then
-        Scene:loadFromFile("test_irio.map.vili");
+    if not Scene:getGameObject("spy_manager").didtry then
+        local poppos = (This:LevelSprite():getPosition(obe.Referential.Top) - obe.UnitVector(0, 0.01)):to(obe.Units.ScenePixels);
+        if IsInCursor() and Object.spy then
+            Scene:getGameObject("spy_manager").spy_found = true;
+            if Object.pop.text then
+                Object.pop.text.text = Object.successDialogues[math.random(1, #Object.successDialogues)];
+            else
+                Object.pop = Scene:getGameObject("dialog_pop"):pop(poppos.x, poppos.y, Object.successDialogues[math.random(1, #Object.successDialogues)]);
+            end
+            --[[Object.pop.text.color = {
+                r = 0, g = 255, b = 0, a = 255
+            }]]--
+            This:LevelSprite():setColor(SFML.Color.Green);
+            Scene:getGameObject("spy_manager").didtry = true;
+            Object.sound = obe.Sound("Sounds/accusation.ogg");
+            Object.sound:play();
+        elseif IsInCursor() then
+            if Object.pop.text then
+                Object.pop.text.text = Object.failDialogues[math.random(1, #Object.failDialogues)];
+            else
+                Object.pop = Scene:getGameObject("dialog_pop"):pop(poppos.x, poppos.y, Object.failDialogues[math.random(1, #Object.failDialogues)]);
+            end
+            Object.failed = true;
+            Object.sound = obe.Sound("Sounds/wrong_guess.ogg");
+            Object.sound:play();
+            Scene:getGameObject("spy_manager").didtry = true;
+            Scene:getGameObject("spy_manager").fails = Scene:getGameObject("spy_manager").fails + 1;
+        end
     end
 end
 
@@ -161,10 +217,12 @@ function IsInCursor()
 end
 
 function Global.Game.Render()
-    if IsInCursor() then
-        This:LevelSprite():setColor(SFML.Color.Red);
-    else
-        This:LevelSprite():setColor(SFML.Color.White);
+    if not Scene:getGameObject("spy_manager").spy_found then
+        if IsInCursor() or Object.failed then
+            This:LevelSprite():setColor(SFML.Color.Red);
+        else
+            This:LevelSprite():setColor(SFML.Color.White);
+        end
     end
     if Scene:getGameObject("spy_manager").follow_id == This:getId() then
         --Scene:getCamera():setPosition(This:LevelSprite():getPosition(obe.Referential.Center), obe.Referential.Center);

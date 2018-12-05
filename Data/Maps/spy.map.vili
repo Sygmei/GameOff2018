@@ -34,6 +34,7 @@ Collisions:
             0.013542
             0.959259
         ]
+        tag:"Scene"
     collidert:
         unit:
             unit:"SceneUnits"
@@ -598,10 +599,6 @@ Collisions:
         ]
 
 GameObjects:
-    grid:
-        type:"Grid"
-        Requires:
-            colliderId:"collider0"
     spy_manager:
         type:"SpyManager"
     dialog_pop:
